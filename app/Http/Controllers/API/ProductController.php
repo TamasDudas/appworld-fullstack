@@ -6,15 +6,21 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 use App\Http\Resources\ProductResource;
 
 class ProductController extends BaseController
 {
     public function index()
     {
-        $products = Product::all();
-
-        return $this->sendResponse(ProductResource::collection($products), 'Products retrieved successfully.');
+        try {
+            $products = Product::all();
+            Log::info('Products found: ' . $products->count());
+            return $this->sendResponse($products, 'Products retrieved successfully.');
+        } catch (\Exception $e) {
+            Log::error('Error in index: ' . $e->getMessage());
+            return $this->sendError('Error retrieving products', ['error' => $e->getMessage()], 500);
+        }
     }
 
     public function store(Request $request)

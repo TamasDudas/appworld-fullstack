@@ -2,7 +2,7 @@ import React from "react";
 import { createContext, useContext, useState, useEffect } from "react";
 import api from "../api";
 
-const authContext = createContext({
+const AuthContext = createContext({
   user: null,
   loading: false,
   isAuthenticated: false,
@@ -14,7 +14,7 @@ const authContext = createContext({
 });
 
 export const useAuth = () => {
-  const context = useContext(authContext);
+  const context = useContext(AuthContext);
 
   if (!context) {
     throw new Error("");
@@ -54,10 +54,10 @@ export const AuthProvider = ({ children }) => {
     const { email, password } = credentials;
 
     try {
-      await api.post("/api/login", { email, password });
+      const loginResponse = await api.post("/api/login", { email, password });
+      localStorage.setItem("auth_token", loginResponse.data.data.token);
 
       const userResponse = await api.get("/api/user");
-      localStorage.setItem("auth_token", response.data.token);
       setUser(userResponse.data);
       setIsAuthenticated(true);
 
@@ -70,4 +70,59 @@ export const AuthProvider = ({ children }) => {
       };
     }
   };
+
+  const registration = async (credentials) => {
+    const { name, email, password, c_password } = credentials;
+
+    try {
+      await api.post("/api/register", { name, email, password, c_password });
+      const registerResponse = await api.get("/api/user");
+      localStorage.setItem("auth_token", registerResponse.data.data.token);
+      setUser(registerResponse.data);
+      setIsAuthenticated(true);
+      console.log("Sikeres regisztráció: ", registerResponse.data.name);
+      return { success: true };
+    } catch (error) {
+      console.log("Regisztrációs hiba");
+      return {
+        success: false,
+        error: error.response?.data?.name || "Sikertelen resisztrálás",
+      };
+    }
+  };
+
+  //KILÉPÉS
+  const logout = async () => {
+    try {
+      await api.post("/api/logout");
+      localStorage.removeItem("auth_token");
+      setUser(null);
+      setIsAuthenticated(false);
+    } catch (error) {
+      console.log("Kijelentkezési hiba");
+      setUser(null);
+      setIsAuthenticated(false);
+    }
+  };
+
+  const clearError = () => {
+    setError(null);
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        isAuthenticated,
+        loading,
+        error,
+        login,
+        registration,
+        logout,
+        clearError,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };

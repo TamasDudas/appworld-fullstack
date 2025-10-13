@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends BaseController
@@ -50,6 +51,14 @@ class RegisterController extends BaseController
             return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
         }
 
+
+    }
+
+    public function logoutUser(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return $this->sendResponse([], 'Sikeres kijelentkezés');
 
     }
 }

@@ -12,6 +12,7 @@ use App\Http\Controllers\API\RegisterController;
 Route::controller(RegisterController::class)->group(function () {
     Route::post('register', 'registerUser');
     Route::post('login', 'loginUser');
+
 });
 
 // Publikus route-ok (nincs token szükséges)
@@ -24,4 +25,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('products/{product}', [ProductController::class, 'update']);
     Route::patch('products/{product}', [ProductController::class, 'update']);
     Route::delete('products/{product}', [ProductController::class, 'destroy']);
+    Route::post('logout', [RegisterController::class, 'logoutUser']);
 });

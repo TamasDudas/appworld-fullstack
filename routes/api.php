@@ -10,8 +10,8 @@ use App\Http\Controllers\API\RegisterController;
 // })->middleware('auth:sanctum');
 
 Route::controller(RegisterController::class)->group(function () {
-    Route::post('register', 'register');
-    Route::post('login', 'login');
+    Route::post('register', 'registerUser');
+    Route::post('login', 'loginUser');
 });
 
 // Publikus route-ok (nincs token szükséges)

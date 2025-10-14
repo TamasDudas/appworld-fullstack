@@ -55,9 +55,11 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const loginResponse = await api.post("/api/login", { email, password });
+
       localStorage.setItem("auth_token", loginResponse.data.data.token);
 
       const userResponse = await api.get("/api/user");
+      console.log(userResponse);
       setUser(userResponse.data);
       setIsAuthenticated(true);
 
@@ -75,10 +77,15 @@ export const AuthProvider = ({ children }) => {
     const { name, email, password, c_password } = credentials;
 
     try {
-      await api.post("/api/register", { name, email, password, c_password });
-      const registerResponse = await api.get("/api/user");
+      const registerResponse = await api.post("/api/register", {
+        name,
+        email,
+        password,
+        c_password,
+      });
       localStorage.setItem("auth_token", registerResponse.data.data.token);
-      setUser(registerResponse.data);
+
+      setUser(registerResponse.data.data);
       setIsAuthenticated(true);
       console.log("Sikeres regisztráció: ", registerResponse.data.name);
       return { success: true };

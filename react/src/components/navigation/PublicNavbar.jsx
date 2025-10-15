@@ -20,7 +20,7 @@ export default function PublicNavbar() {
       </div>
       <div className="flex items-center space-x-4">
         <Link
-          to="/"
+          to="/login"
           className="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-md"
         >
           Belépés
@@ -28,7 +28,7 @@ export default function PublicNavbar() {
       </div>
       <div className="flex items-center space-x-4">
         <Link
-          to="/"
+          to="/register"
           className="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-md"
         >
           Regisztráció

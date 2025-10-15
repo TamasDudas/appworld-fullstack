@@ -1,9 +1,10 @@
 import React from "react";
-import { useAuth } from "../context/AuthContext";
+
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 export default function PrivateNavbar() {
-  const { user, logout } = useAuth();
+  const { user, logout } = useAuth;
 
   const handleLogout = () => {
     logout();
@@ -19,10 +20,10 @@ export default function PrivateNavbar() {
       {/* Nav links */}
       <div className="flex items-center space-x-4">
         <Link
-          to="/"
+          to="/create-product"
           className="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-md"
         >
-          Home
+          Termék létrehozása
         </Link>
       </div>
 

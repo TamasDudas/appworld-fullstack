@@ -1,6 +1,6 @@
 import React from "react";
 import { createContext, useContext, useState, useEffect } from "react";
-import api from "../api";
+import api, { setAuthToken } from "../api";
 
 const AuthContext = createContext({
   user: null,
@@ -56,10 +56,11 @@ export const AuthProvider = ({ children }) => {
     try {
       const loginResponse = await api.post("/api/login", { email, password });
 
-      localStorage.setItem("auth_token", loginResponse.data.data.token);
+      const token = loginResponse.data.data.token;
+      setAuthToken(token); //api.js-ből
 
       const userResponse = await api.get("/api/user");
-      console.log(userResponse);
+
       setUser(userResponse.data);
       setIsAuthenticated(true);
 
@@ -83,8 +84,8 @@ export const AuthProvider = ({ children }) => {
         password,
         c_password,
       });
-      localStorage.setItem("auth_token", registerResponse.data.data.token);
-
+      const token = registerResponse.data.data.token;
+      setAuthToken(token);
       setUser(registerResponse.data.data);
       setIsAuthenticated(true);
       console.log("Sikeres regisztráció: ", registerResponse.data.name);
@@ -102,7 +103,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await api.post("/api/logout");
-      localStorage.removeItem("auth_token");
+      setAuthToken(null);
       setUser(null);
       setIsAuthenticated(false);
     } catch (error) {

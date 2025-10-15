@@ -3,13 +3,14 @@ import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 
 export default function Form({ isLogin = true }) {
-  const { login, registration } = useAuth();
-  const [formData, setFormData] = useState({
+  const initialData = {
     name: "",
     email: "",
     password: "",
     c_password: "",
-  });
+  };
+  const { login, registration } = useAuth();
+  const [formData, setFormData] = useState(initialData);
 
   function handleData(e) {
     const { name, value } = e.target;
@@ -35,6 +36,7 @@ export default function Form({ isLogin = true }) {
 
       if (result.success) {
         console.log(isLogin ? "Sikeres bejelentkezés" : "Sikeres regisztráció");
+        setFormData(initialData);
       } else {
         console.log(isLogin ? "Login hiba" : "Regisztrációs hiba");
       }

@@ -4,7 +4,7 @@ import api, { setAuthToken } from "../api";
 
 const AuthContext = createContext({
   user: null,
-  loading: false,
+  loading: true,
   isAuthenticated: false,
   error: null,
   login: async () => {},

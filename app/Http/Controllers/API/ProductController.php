@@ -13,14 +13,9 @@ class ProductController extends BaseController
 {
     public function index()
     {
-        try {
-            $products = Product::all();
-            Log::info('Products found: ' . $products->count());
-            return $this->sendResponse($products, 'Products retrieved successfully.');
-        } catch (\Exception $e) {
-            Log::error('Error in index: ' . $e->getMessage());
-            return $this->sendError('Error retrieving products', ['error' => $e->getMessage()], 500);
-        }
+        $product = Product::all();
+
+        return $this->sendResponse(ProductResource::collection($product), 'Product retrieved successfully.');
     }
 
     public function store(Request $request)

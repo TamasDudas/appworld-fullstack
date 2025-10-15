@@ -1,6 +1,6 @@
-import React from "react";
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Form({ isLogin = true }) {
   const initialData = {
@@ -9,6 +9,7 @@ export default function Form({ isLogin = true }) {
     password: "",
     c_password: "",
   };
+  const navigate = useNavigate();
   const { login, registration } = useAuth();
   const [formData, setFormData] = useState(initialData);
 
@@ -37,6 +38,7 @@ export default function Form({ isLogin = true }) {
       if (result.success) {
         console.log(isLogin ? "Sikeres bejelentkezés" : "Sikeres regisztráció");
         setFormData(initialData);
+        navigate("/");
       } else {
         console.log(isLogin ? "Login hiba" : "Regisztrációs hiba");
       }

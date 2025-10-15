@@ -4,7 +4,7 @@ import PublicNavbar from "../components/navigation/PublicNavbar";
 import { Outlet } from "react-router-dom";
 
 export default function MainLayouts() {
-  const { isAuthenticated, loading } = useAuth;
+  const { isAuthenticated, loading } = useAuth();
 
   if (loading) {
     return (

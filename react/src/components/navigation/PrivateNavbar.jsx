@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 export default function PrivateNavbar() {
-  const { user, logout } = useAuth;
+  const { user, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -28,11 +28,11 @@ export default function PrivateNavbar() {
       </div>
 
       {/* user info */}
-      <div className="flex items-center space-x-2 border-1 pl-4">
+      <div className="flex items-center space-x-4 py-1">
         <span>Hello, {user?.name}!</span>
         <button
           onClick={handleLogout}
-          className="p-4 text-white bg-red-700 hover:bg-red-900 rounded-md"
+          className="px-2 py-1 text-white bg-red-700 hover:bg-red-900 rounded-md"
         >
           Kilépés
         </button>

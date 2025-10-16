@@ -18,6 +18,14 @@ export default function PrivateNavbar() {
       {/* Nav links */}
       <div className="flex items-center space-x-4">
         <Link
+          to="/"
+          className="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-md"
+        >
+          Home
+        </Link>
+      </div>
+      <div className="flex items-center space-x-4">
+        <Link
           to="/create-product"
           className="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-md"
         >
@@ -30,7 +38,7 @@ export default function PrivateNavbar() {
         <span>Hello, {user?.name}!</span>
         <button
           onClick={handleLogout}
-          className="px-2 py-1 text-white bg-red-700 hover:bg-red-900 rounded-md"
+          className="px-2 py-1 text-white bg-red-700 hover:bg-red-900 cursor-pointer rounded-md"
         >
           Kilépés
         </button>

@@ -29,7 +29,7 @@ export default function PublicNavbar() {
       <div className="flex items-center space-x-4">
         <Link
           to="/register"
-          className="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-md"
+          className="px-4 py-2 text-blue-600 hover:bg-blue-50  rounded-md"
         >
           Regisztráció
         </Link>

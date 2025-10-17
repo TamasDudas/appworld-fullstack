@@ -9,7 +9,7 @@ export default function ProductForm() {
 
   const [productData, setProductData] = useState(initialProductData);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   function handleProductData(e) {
     const { name, value } = e.target;
@@ -18,6 +18,8 @@ export default function ProductForm() {
 
   async function onSubmit(e) {
     e.preventDefault();
+
+    setLoading(true);
     try {
       const sendData = {
         name: productData.name,
@@ -26,14 +28,11 @@ export default function ProductForm() {
       const createProductResponse = await api.post("/api/products", sendData);
       console.log(createProductResponse.data.data.name);
       setProductData(initialProductData);
+      setError(null);
       return { success: true };
     } catch (error) {
-      return {
-        success: false,
-        error:
-          error?.createProductResponse?.data.data.name ||
-          "Sikertelen termék regisztrálás",
-      };
+      const errorResponse = error?.response?.data?.data;
+      setError(errorResponse);
     } finally {
       setLoading(false);
     }
@@ -44,9 +43,7 @@ export default function ProductForm() {
       <div className="text-center py-8">Termékek hozzáadása folyamatban...</div>
     );
   }
-  if (error) {
-    return <div className="text-center py-8 text-red-700">{error}</div>;
-  }
+
   return (
     <form className="space-y-4" onSubmit={onSubmit}>
       <div>
@@ -59,6 +56,7 @@ export default function ProductForm() {
           onChange={handleProductData}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
+        {error && <p className="mt-1 text-sm text-red-600">{error.name}</p>}
       </div>
       <div>
         <label htmlFor="detail">Termék leírása</label>
@@ -70,6 +68,7 @@ export default function ProductForm() {
           onChange={handleProductData}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
+        {error && <p className="mt-1 text-sm text-red-600">{error.detail}</p>}
       </div>
       <button
         className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200 cursor-pointer"

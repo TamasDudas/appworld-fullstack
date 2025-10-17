@@ -17,7 +17,7 @@ Route::controller(RegisterController::class)->group(function () {
 
 // Publikus route-ok (nincs token szükséges)
 Route::get('products', [ProductController::class, 'index']);
-Route::get('products/{product}', [ProductController::class, 'show']);
+Route::get('product/{product}', [ProductController::class, 'show']);
 
 // Védett route-ok (token szükséges)
 Route::middleware('auth:sanctum')->group(function () {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../../api";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -17,7 +18,6 @@ export default function Home() {
       setProducts(responseData);
       setLoading(false);
     } catch (error) {
-      console.log("Hiba történt: ", error);
       setError("Hibatörtént a termékek betöltésekor");
     } finally {
       setLoading(false);
@@ -43,6 +43,9 @@ export default function Home() {
               <h2>{product.name}</h2>
               <div>
                 <p>{product.detail}</p>
+              </div>
+              <div>
+                <Link to={`/product/${product.id}`}>Részletek</Link>
               </div>
             </div>
           ))}

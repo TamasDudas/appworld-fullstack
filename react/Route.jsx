@@ -5,6 +5,7 @@ import Login from "./src/pages/public/Login";
 import Register from "./src/pages/public/Register";
 import ProtectedRoute from "./src/components/ProtectedRoute";
 import CreateProduct from "./src/pages/private/CreateProduct";
+import Product from "./src/pages/public/Product";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
+      },
+      {
+        path: "/product/:id",
+        element: <Product />,
       },
       //Csak bejelentkezett user
       {

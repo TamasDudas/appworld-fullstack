@@ -39,7 +39,9 @@ export default function Product() {
       <h2 className="text-2xl font-bold mb-6 ">{product.name}</h2>
       <p>{product.detail}</p>
       <p>id: {product.id}</p>
-      {isAuthenticated && <Link to="/update-product">Termék szerkesztése</Link>}
+      {isAuthenticated && (
+        <Link to={`/update-product/${product.id}`}>Termék szerkesztése</Link>
+      )}
     </div>
   );
 }

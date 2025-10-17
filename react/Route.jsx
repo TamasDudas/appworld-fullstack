@@ -41,7 +41,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/update-product",
+        path: "/update-product/:id",
         element: (
           <ProtectedRoute>
             <UpdateProduct />

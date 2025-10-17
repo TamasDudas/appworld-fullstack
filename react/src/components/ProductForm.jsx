@@ -26,7 +26,7 @@ export default function ProductForm() {
         detail: productData.detail,
       };
       const createProductResponse = await api.post("/api/products", sendData);
-      console.log(createProductResponse.data.data.name);
+
       setProductData(initialProductData);
       setError(null);
       return { success: true };

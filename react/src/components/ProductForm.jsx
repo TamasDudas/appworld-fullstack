@@ -1,7 +1,9 @@
 import { useState } from "react";
 import api from "../api";
 
-export default function ProductForm() {
+export default function ProductForm({ productId }) {
+  const id = !!productId;
+  console.log(id);
   const initialProductData = {
     name: "",
     detail: "",

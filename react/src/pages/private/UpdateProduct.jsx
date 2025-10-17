@@ -10,7 +10,7 @@ export default function UpdateProduct() {
         <h1 className="text-2xl font-bold text-center mb-6">
           Termék szerkesztése
         </h1>
-        <ProductForm />
+        <ProductForm userId={id} />
       </div>
     </div>
   );

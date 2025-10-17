@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import api from "../../api";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Product() {
   const { id } = useParams();
+  const { isAuthenticated } = useAuth();
 
   const [product, setProduct] = useState([]);
   const [error, setError] = useState(null);
@@ -37,6 +39,7 @@ export default function Product() {
       <h2 className="text-2xl font-bold mb-6 ">{product.name}</h2>
       <p>{product.detail}</p>
       <p>id: {product.id}</p>
+      {isAuthenticated && <Link to="/update-product">Termék szerkesztése</Link>}
     </div>
   );
 }

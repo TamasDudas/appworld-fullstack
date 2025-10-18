@@ -1,17 +1,24 @@
-import { useState } from "react";
-import api from "../api";
+import { useState, useEffect } from "react";
+import { useProduct } from "../context/ProductContext";
 
 export default function ProductForm({ productId }) {
-  const id = !!productId;
-  console.log(id);
-  const initialProductData = {
+  const { createProduct, updateProduct, product, loading, error } =
+    useProduct();
+
+  const [productData, setProductData] = useState({
     name: "",
     detail: "",
-  };
+  });
 
-  const [productData, setProductData] = useState(initialProductData);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  // Ha van productId és a context-ben van a megfelelő termék, betöltjük
+  useEffect(() => {
+    if (productId && product && product.id === parseInt(productId)) {
+      setProductData({
+        name: product.name || "",
+        detail: product.detail || "",
+      });
+    }
+  }, [productId, product]);
 
   function handleProductData(e) {
     const { name, value } = e.target;
@@ -21,27 +28,24 @@ export default function ProductForm({ productId }) {
   async function onSubmit(e) {
     e.preventDefault();
 
-    setLoading(true);
-    try {
-      const sendData = {
-        name: productData.name,
-        detail: productData.detail,
-      };
-      await api.post("/api/products", sendData);
-      setProductData(initialProductData);
-      setError(null);
-      return { success: true };
-    } catch (error) {
-      const errorResponse = error?.response?.data?.data;
-      setError(errorResponse);
-    } finally {
-      setLoading(false);
+    const result = productId
+      ? await updateProduct(productId, productData)
+      : await createProduct(productData);
+
+    if (result.success) {
+      // Sikeresen létrehozva/frissítve
+      if (!productId) {
+        // Create mód - form nullázása
+        setProductData({ name: "", detail: "" });
+      }
     }
   }
 
   if (loading) {
     return (
-      <div className="text-center py-8">Termékek hozzáadása folyamatban...</div>
+      <div className="text-center py-8">
+        {productId ? "Termék frissítése..." : "Termék létrehozása..."}
+      </div>
     );
   }
 
@@ -59,6 +63,7 @@ export default function ProductForm({ productId }) {
         />
         {error && <p className="mt-1 text-sm text-red-600">{error.name}</p>}
       </div>
+
       <div>
         <label htmlFor="detail">Termék leírása</label>
         <input
@@ -71,11 +76,12 @@ export default function ProductForm({ productId }) {
         />
         {error && <p className="mt-1 text-sm text-red-600">{error.detail}</p>}
       </div>
+
       <button
         className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200 cursor-pointer"
         type="submit"
       >
-        Küldés
+        {productId ? "Termék frissítése" : "Termék létrehozása"}
       </button>
     </form>
   );

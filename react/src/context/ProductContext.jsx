@@ -61,7 +61,7 @@ export function ProductProvider({ children }) {
     setLoading(true);
     setError(null);
     try {
-      const response = await api.patch(`/api/product/${id}`, productData);
+      const response = await api.patch(`/api/products/${id}`, productData);
       const updatedProduct = response.data.data;
       setProduct(updatedProduct);
       return { success: true, data: updatedProduct };

@@ -39,13 +39,21 @@ export default function Home() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((product) => (
-            <div className="bg-white rounded-lg shadow-md p-6" key={product.id}>
+            <div
+              className="bg-white  rounded-lg shadow-md p-6"
+              key={product.id}
+            >
               <h2>{product.name}</h2>
-              <div>
+              <div className="my-6">
                 <p>{product.detail}</p>
               </div>
               <div>
-                <Link to={`/product/${product.id}`}>Részletek</Link>
+                <Link
+                  className="py-3 px-2 bg-amber-300 mt-5 rounded-xl"
+                  to={`/product/${product.id}`}
+                >
+                  Részletek
+                </Link>
               </div>
             </div>
           ))}

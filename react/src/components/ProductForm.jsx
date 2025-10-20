@@ -43,6 +43,10 @@ export default function ProductForm({ productId }) {
     }
   }, [success, clearSuccess]);
 
+  useEffect(() => {
+    clearSuccess();
+  }, []);
+
   function handleProductData(e) {
     const { name, value } = e.target;
     setProductData((prev) => ({ ...prev, [name]: value }));

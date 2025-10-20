@@ -1,10 +1,30 @@
 import React, { useEffect, useState } from "react";
-import api from "../../api";
+
 import { Link } from "react-router-dom";
 import { useProduct } from "../../context/ProductContext";
 
 export default function Home() {
-  const { fetchProducts, loading, error, products } = useProduct();
+  const {
+    fetchProducts,
+    loading,
+    error,
+    products,
+    success,
+    clearSuccess,
+    successMessage,
+  } = useProduct();
+
+  // Success üzenet automatikus eltüntetése 5 másodperc után
+  useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => {
+        clearSuccess();
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [success, clearSuccess]);
+
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -20,6 +40,11 @@ export default function Home() {
 
   return (
     <div className="max-w-6xl mx-auto mt-8">
+      {success && (
+        <div className="mb-4 bg-green-500 border text-neutral-100 px-4 py-3 rounded">
+          {successMessage}
+        </div>
+      )}
       <h2 className="text-2xl font-bold mb-6 text-center">Termékeink</h2>
       {products.length === 0 ? (
         <div>Jelenleg nincs termékünk</div>

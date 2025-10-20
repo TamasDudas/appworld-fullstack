@@ -9,10 +9,8 @@ export default function ProductForm({ productId }) {
     updateProduct,
     product,
     loading,
-    success,
-    successMessage,
+
     error,
-    clearSuccess,
   } = useProduct();
 
   const [productData, setProductData] = useState({
@@ -29,23 +27,6 @@ export default function ProductForm({ productId }) {
       });
     }
   }, [productId, product]);
-
-  // Success üzenet automatikus eltüntetése 5 másodperc után
-
-  useEffect(() => {
-    if (success) {
-      const timer = setTimeout(() => {
-        clearSuccess();
-        navigate("/");
-      }, 3000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [success, clearSuccess]);
-
-  useEffect(() => {
-    clearSuccess();
-  }, []);
 
   function handleProductData(e) {
     const { name, value } = e.target;
@@ -64,6 +45,7 @@ export default function ProductForm({ productId }) {
     if (!productId) {
       setProductData({ name: "", detail: "" });
     }
+    navigate("/");
   }
 
   if (loading) {
@@ -76,12 +58,6 @@ export default function ProductForm({ productId }) {
 
   return (
     <div>
-      {success && (
-        <div className="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-          {successMessage}
-        </div>
-      )}
-
       <form className="space-y-4" onSubmit={onSubmit}>
         <div>
           <label htmlFor="name">Termék neve</label>

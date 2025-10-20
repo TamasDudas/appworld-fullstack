@@ -105,8 +105,9 @@ export function ProductProvider({ children }) {
     setLoading(true);
     setError(null);
     try {
-      await api.delete(`/api/products/${id}`);
-      setSuccess("A termék sikeresen törölve");
+      const response = await api.delete(`/api/products/${id}`);
+      setSuccess(response.data.data);
+      setSuccessMessage("A termék sikeresen törölve");
     } catch (error) {
       setError("A termék törlése nem sikerült");
     } finally {

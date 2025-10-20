@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useProduct } from "../../context/ProductContext";
 import ConfirmModal from "../../components/ConfirmModal";
 
 export default function Product() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { isAuthenticated } = useAuth();
-  const { product, error, loading, fetchProduct } = useProduct();
+  const { product, error, loading, fetchProduct, deleteProduct } = useProduct();
   const [showModal, setShowModal] = useState(false);
 
   const handleDelete = () => {
-    console.log("Hello");
+    deleteProduct(id);
+    navigate("/");
   };
 
   useEffect(() => {
@@ -50,11 +52,13 @@ export default function Product() {
           </button>
 
           {showModal && (
-            <ConfirmModal
-              onConfirm={handleDelete}
-              onCancel={() => setShowModal(false)}
-              message="Biztos törölni akarod a terméket?"
-            />
+            <div>
+              <ConfirmModal
+                onConfirm={handleDelete}
+                onCancel={() => setShowModal(false)}
+                message="Biztos törölni akarod a terméket?"
+              />
+            </div>
           )}
         </div>
       )}

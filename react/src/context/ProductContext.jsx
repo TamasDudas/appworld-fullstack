@@ -10,6 +10,7 @@ const ProductContext = createContext({
   createProduct: async () => {},
   updateProduct: async () => {},
   fetchProduct: async () => {},
+  deleteProduct: async () => {},
   clearSuccess: () => {},
 });
 
@@ -83,6 +84,20 @@ export function ProductProvider({ children }) {
     }
   };
 
+  const deleteProduct = async (id) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await api.delete(`/api/products/${id}`);
+      console.log(response);
+      setSuccess("A termék sikeresen törölve");
+    } catch (error) {
+      setError("A termék törlése nem sikerült");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const clearSuccess = () => {
     setSuccess(null);
     setSuccessMessage("");
@@ -99,6 +114,7 @@ export function ProductProvider({ children }) {
         createProduct,
         updateProduct,
         fetchProduct,
+        deleteProduct,
         clearSuccess,
       }}
     >

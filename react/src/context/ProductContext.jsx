@@ -9,6 +9,7 @@ const ProductContext = createContext({
   loading: false,
   createProduct: async () => {},
   updateProduct: async () => {},
+  fetchProducts: async () => {},
   fetchProduct: async () => {},
   deleteProduct: async () => {},
   clearSuccess: () => {},
@@ -25,10 +26,24 @@ export const useProduct = () => {
 
 export function ProductProvider({ children }) {
   const [product, setProduct] = useState(null);
+  const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await api.get("/api/products");
+      const responseData = response.data.data;
+      setProducts(responseData);
+      setLoading(false);
+    } catch (error) {
+      setError("Hibatörtént a termékek betöltésekor");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchProduct = async (id) => {
     setLoading(true);
@@ -105,6 +120,7 @@ export function ProductProvider({ children }) {
   return (
     <ProductContext.Provider
       value={{
+        products,
         product,
         error,
         loading,
@@ -112,6 +128,7 @@ export function ProductProvider({ children }) {
         successMessage,
         createProduct,
         updateProduct,
+        fetchProducts,
         fetchProduct,
         deleteProduct,
         clearSuccess,

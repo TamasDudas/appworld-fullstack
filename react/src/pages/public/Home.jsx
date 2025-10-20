@@ -1,28 +1,15 @@
 import React, { useEffect, useState } from "react";
 import api from "../../api";
 import { Link } from "react-router-dom";
+import { useProduct } from "../../context/ProductContext";
 
 export default function Home() {
-  const [products, setProducts] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-
+  const { fetchProducts, loading, error, products } = useProduct();
   useEffect(() => {
-    handleProducts();
+    fetchProducts();
   }, []);
 
-  const handleProducts = async () => {
-    try {
-      const response = await api.get("/api/products");
-      const responseData = response.data.data;
-      setProducts(responseData);
-      setLoading(false);
-    } catch (error) {
-      setError("Hibatörtént a termékek betöltésekor");
-    } finally {
-      setLoading(false);
-    }
-  };
+  ///
 
   if (loading) {
     return <div className="text-center py-8">Termékek betöltése...</div>;

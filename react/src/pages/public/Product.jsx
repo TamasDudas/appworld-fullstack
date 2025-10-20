@@ -21,7 +21,7 @@ export default function Product() {
   }, [id]);
 
   if (loading) {
-    return <div className="text-center py-8">Termékek betöltése...</div>;
+    return <div className="text-center py-8">Termék betöltése...</div>;
   }
   if (error) {
     return <div className="text-center py-8 text-red-700">{error}</div>;

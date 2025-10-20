@@ -88,8 +88,7 @@ export function ProductProvider({ children }) {
     setLoading(true);
     setError(null);
     try {
-      const response = await api.delete(`/api/products/${id}`);
-      console.log(response);
+      await api.delete(`/api/products/${id}`);
       setSuccess("A termék sikeresen törölve");
     } catch (error) {
       setError("A termék törlése nem sikerült");

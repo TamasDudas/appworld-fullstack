@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { useProduct } from "../context/ProductContext";
+import { useNavigate } from "react-router-dom";
 
 export default function ProductForm({ productId }) {
+  const navigate = useNavigate();
   const {
     createProduct,
     updateProduct,
@@ -28,12 +30,13 @@ export default function ProductForm({ productId }) {
     }
   }, [productId, product]);
 
-  // Success üzenet automatikus eltüntetése 3 másodperc után
+  // Success üzenet automatikus eltüntetése 5 másodperc után
 
   useEffect(() => {
     if (success) {
       const timer = setTimeout(() => {
         clearSuccess();
+        navigate("/");
       }, 3000);
 
       return () => clearTimeout(timer);

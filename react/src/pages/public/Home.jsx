@@ -49,7 +49,7 @@ export default function Home() {
               </div>
               <div>
                 <Link
-                  className="py-3 px-2 bg-amber-300 mt-5 rounded-xl"
+                  className="py-2 px-4 bg-amber-300 mt-5 rounded-xl"
                   to={`/product/${product.id}`}
                 >
                   Részletek

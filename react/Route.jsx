@@ -7,6 +7,7 @@ import ProtectedRoute from "./src/components/ProtectedRoute";
 import CreateProduct from "./src/pages/private/CreateProduct";
 import Product from "./src/pages/public/Product";
 import UpdateProduct from "./src/pages/private/UpdateProduct";
+import NotFound from "./src/pages/NotFound";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/product/:id",
         element: <Product />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
       //Csak bejelentkezett user
       {

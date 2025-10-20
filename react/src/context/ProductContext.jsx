@@ -33,6 +33,8 @@ export function ProductProvider({ children }) {
   const [successMessage, setSuccessMessage] = useState(null);
 
   const fetchProducts = async () => {
+    setLoading(true);
+    setError(null);
     try {
       const response = await api.get("/api/products");
       const responseData = response.data.data;

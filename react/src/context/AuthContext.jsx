@@ -50,10 +50,8 @@ export const AuthProvider = ({ children }) => {
 
   //Login
   const login = async (credentials) => {
-    const { email, password } = credentials;
-
     try {
-      const loginResponse = await api.post("/api/login", { email, password });
+      const loginResponse = await api.post("/api/login", { ...credentials });
 
       const token = loginResponse.data.data.token;
       setAuthToken(token); //api.js-ből
@@ -74,14 +72,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   const registration = async (credentials) => {
-    const { name, email, password, c_password } = credentials;
-
     try {
       const registerResponse = await api.post("/api/register", {
-        name,
-        email,
-        password,
-        c_password,
+        ...credentials,
       });
       const token = registerResponse.data.data.token;
       setAuthToken(token);
